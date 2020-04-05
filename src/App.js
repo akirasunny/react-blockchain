@@ -6,14 +6,22 @@ import {
 } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 
-import { removeCurrency } from './redux/actions';
+import { removeCurrency, addCurrency, fetchCurrency } from './redux/actions';
 
 const App = ({
   currencies,
   dispatch
 }) => {
-  const removeButton = (currency) => (
+  React.useEffect(() => {
+    dispatch(fetchCurrency());
+    return null;
+  }, []);
+
+  const [dropdownOpen, setDropdownOpen] = React.useState(false);
+  
+  const removeButton = (currency, i) => (
     <button
+      key={i}
       className="btn-primary"
       onClick={() => dispatch(removeCurrency(currency))}
     >
@@ -21,21 +29,44 @@ const App = ({
     </button>
   );
 
+  const dropdownItems = (currency, i) => (
+    <li
+      key={i}
+      onClick={() => dispatch(addCurrency(currency))}
+    >
+      {currency.index}
+    </li>
+  );
+
+  const visibleCurrencies = currencies.filter((currency) => currency.show);
+  const hiddenCurrencies = currencies.filter((currency) => !currency.show);
+
   return (
     <div className="container">
+      <div className="dropdown">
+        <button className="btn btn-default dropdown-toggle" type="button" onClick={() => setDropdownOpen(!dropdownOpen)}>
+          Other Currencies
+          <span className="caret"></span>
+        </button>
+        
+        {dropdownOpen &&
+          <ul>
+            {hiddenCurrencies.map((currency, i) => dropdownItems(currency, i))}
+          </ul>
+         }
+      </div>
+
       <Table celled>
         <Table.Body>
-          {currencies?.map((currency, i) => {
+          {visibleCurrencies?.map((currency, i) => {
             return (
               <Table.Row key={i}>
                 <Table.Cell>
                   {currency.index}
                 </Table.Cell>
+
                 <Table.Cell>
-                  {currency.show.toString()}
-                </Table.Cell>
-                <Table.Cell>
-                {currency.show && removeButton(currency)}
+                  {visibleCurrencies.length > 1 && removeButton(currency, i)}
                 </Table.Cell>
               </Table.Row>
             )
@@ -48,7 +79,7 @@ const App = ({
 
 const mapStateToProps = (state) => {
   return {
-    currencies: [...state.currencies]
+    currencies: state.currencies
   };
 };
 
