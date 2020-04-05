@@ -1,9 +1,4 @@
 import React from 'react';
-import {
-  Table,
-  Dropdown,
-  Button
-} from 'semantic-ui-react';
 import { connect } from 'react-redux';
 
 import { removeCurrency, addCurrency, fetchCurrency } from './redux/actions';
@@ -22,6 +17,7 @@ const App = ({
     <button
       key={i}
       className="btn-primary"
+      style={{ cursor: 'pointer' }}
       onClick={() => dispatch(removeCurrency(currency))}
     >
       Remove
@@ -31,6 +27,7 @@ const App = ({
   const dropdownItems = (currency, i) => (
     <li
       key={i}
+      style={{ cursor: 'pointer' }}
       onClick={() => dispatch(addCurrency(currency))}
     >
       {currency.name}
@@ -55,47 +52,49 @@ const App = ({
          }
       </div>
 
-      <Table celled>
-        <Table.Header>
-          <Table.HeaderCell>
-            Name
-          </Table.HeaderCell>
-          <Table.HeaderCell>
-            Symbol
-          </Table.HeaderCell>
-          <Table.HeaderCell>
-            CMC Rank
-          </Table.HeaderCell>
-          <Table.HeaderCell>
-            Price (USD)
-          </Table.HeaderCell>
-          <Table.HeaderCell />
-        </Table.Header>
+      <table className="table">
+        <thead>
+          <tr>
+            <th>
+              Name
+            </th>
+            <th>
+              Symbol
+            </th>
+            <th>
+              CMC Rank
+            </th>
+            <th>
+              Price (USD)
+            </th>
+            <th/>
+          </tr>
+        </thead>
 
-        <Table.Body>
+        <tbody>
           {visibleCurrencies?.map((currency, i) => {
             return (
-              <Table.Row key={i}>
-                <Table.Cell>
+              <tr key={i}>
+                <td>
                   {currency.name}
-                </Table.Cell>
-                <Table.Cell>
+                </td>
+                <td>
                   {currency.symbol}
-                </Table.Cell>
-                <Table.Cell>
+                </td>
+                <td>
                   {currency.rank}
-                </Table.Cell>
-                <Table.Cell>
+                </td>
+                <td>
                   {currency.price?.USD.price.toFixed(2)}
-                </Table.Cell>
-                <Table.Cell>
+                </td>
+                <td>
                   {visibleCurrencies.length > 1 && removeButton(currency, i)}
-                </Table.Cell>
-              </Table.Row>
+                </td>
+              </tr>
             )
           })}
-        </Table.Body>
-      </Table>
+        </tbody>
+      </table>
     </div>
   );
 }
