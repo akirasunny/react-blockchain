@@ -14,7 +14,6 @@ const App = ({
 }) => {
   React.useEffect(() => {
     dispatch(fetchCurrency());
-    return null;
   }, []);
 
   const [dropdownOpen, setDropdownOpen] = React.useState(false);
@@ -34,7 +33,7 @@ const App = ({
       key={i}
       onClick={() => dispatch(addCurrency(currency))}
     >
-      {currency.index}
+      {currency.name}
     </li>
   );
 
@@ -57,14 +56,38 @@ const App = ({
       </div>
 
       <Table celled>
+        <Table.Header>
+          <Table.HeaderCell>
+            Name
+          </Table.HeaderCell>
+          <Table.HeaderCell>
+            Symbol
+          </Table.HeaderCell>
+          <Table.HeaderCell>
+            CMC Rank
+          </Table.HeaderCell>
+          <Table.HeaderCell>
+            Price (USD)
+          </Table.HeaderCell>
+          <Table.HeaderCell />
+        </Table.Header>
+
         <Table.Body>
           {visibleCurrencies?.map((currency, i) => {
             return (
               <Table.Row key={i}>
                 <Table.Cell>
-                  {currency.index}
+                  {currency.name}
                 </Table.Cell>
-
+                <Table.Cell>
+                  {currency.symbol}
+                </Table.Cell>
+                <Table.Cell>
+                  {currency.rank}
+                </Table.Cell>
+                <Table.Cell>
+                  {currency.price?.USD.price.toFixed(2)}
+                </Table.Cell>
                 <Table.Cell>
                   {visibleCurrencies.length > 1 && removeButton(currency, i)}
                 </Table.Cell>
