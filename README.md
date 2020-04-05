@@ -4,7 +4,7 @@ For time saving purposes, this project was initialized by `npm init react-app`.
 
 1. Open command line in the folder you like, run `git clone https://github.com/akirasunny/react-blockchain.git` to clone this repository;
 2. Run `npm i` and `npm run build` to install dependencies and generate `bundle.js`;
-3. Open browser, navigate to [http://localhost:3000](http://localhost:3000) to view it in the browser.
+3. Run `npm start`. Open your browser, navigate to [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 ## Dependencies
 
